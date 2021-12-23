@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Single+Day&display=swap" rel="stylesheet">
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <title>비숑 쇼핑몰</title>
+
+
+    <style>
+        * {
+            font-family: 'Single Day', cursive;
+        }
+
+        .wrap {
+            width: 500px;
+            margin: 10px auto;
+        }
+
+        .photo {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .title {
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        .cost {
+            font-size: 20px;
+        }
+
+        .desc {
+            font-size: medium;
+        }
+
+        .button {
+            text-align: center;
+            /* margin: auto; */
+        }
+
+        .currency {
+            color: blue;
+
+        }
+    </style>
+
+
+    <script>
+        function order() {
+            let userName = $('#userName').val();
+            let count = $('#count').val();
+            let userAddress = $('#userAddress').val();
+            let userPhone = $('#userPhone').val();
+            if (userName == '') {
+                alert("주문자 이름을 입력해주세요");
+                return;
+            }
+            else if (count == '-- 수량을 선택하세요 --') {
+                alert("수량을 입력해주세요");
+                return;
+            }
+            else if (userAddress == '') {
+                alert("주소를 입력해주세요");
+                return;
+            }
+            else if (userPhone == '') {
+                alert("전화번호를 입력해주세요");
+                return;
+            }
+            else {
+                alert('죄송하지만 이 상품은 품절되었습니다. 세상에 하나밖에 없거든요^_^');
+                return;
+            }
+        }
+
+        $(document).ready(function() {
+            alert('다 로딩됐다!')
+            // 여기에 환율 API Ajax 요청을 하면 되겠죠?
+            $.ajax({
+                type: "GET",
+                url: "https://api.manana.kr/exchange/rate.json",
+                data: {},
+                success: function (response) {
+                    $("#dollar").empty();
+                    let rate = response[1]['rate'];
+                    let temp_html = `달러-원 환율: ${rate}`;
+                    $("#dollar").append(temp_html);
+                }
+            })
+        })
+
+    </script>
+
+</head>
+
+<body>
+    <div class="wrap">
+        <div class=product>
+            <img src="/Users/heesookim/Desktop/줄리.jpg" width=200 height=300 alt=비숑프리제 class="photo">
+            <p></p>
+            <span class="title">줄리를 팝니다</span>
+            <span class="cost"> 가격: 5,000,000,000원/개</span>
+            <p class="desc">
+                이 아이는 앙칼진 목소리를 가진 귀여운 6살 비숑 프리제입니다. 정말 사랑스러워요. 자랑하려고 올렸어요. 죄송해요 절대 안팔아요.
+            </p>
+            <p class="currency" id=dollar> </p>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">주문자 이름</span>
+            </div>
+            <input type="text" class="form-control" id="userName" aria-describedby="basic-addon1">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="inputGroupSelect01">수량</label>
+            </div>
+            <select class="custom-select" id="count">
+                <option selected>-- 수량을 선택하세요 --</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">주소</span>
+            </div>
+            <input type="text" id="userAddress" class="form-control" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">전화번호</span>
+            </div>
+            <input type="text" id="userPhone" class="form-control" aria-describedby="basic-addon1">
+        </div>
+        <div class="button">
+            <button onclick="order()" type="button" class="btn btn-primary">주문하기</button>
+        </div>
+
+
+
+
+    </div>
+
+
+</body>
+
+</html>
